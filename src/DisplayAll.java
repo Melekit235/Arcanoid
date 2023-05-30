@@ -1,13 +1,15 @@
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
 
 public class DisplayAll {
-    public List<DisplayObject> displayObjects = new ArrayList<>();
-    public DisplayAll(Balls balls, Platforms platforms, Bricks bricks) {
+    public static List<DisplayObject> displayObjects;
+    public DisplayAll(Balls balls, Platforms platforms, Bricks bricks, Bonuses bonuses) {
+        displayObjects = new ArrayList<>();
         displayObjects.addAll(balls.balls);
         displayObjects.addAll(platforms.platforms);
         displayObjects.addAll(bricks.bricks);
+        displayObjects.addAll(bonuses.bonuses);
     }
 
     public void moveObjects() {
@@ -26,7 +28,7 @@ public class DisplayAll {
         }
     }
 
-    public void checkCollisions() {
+    public void checkCollisions() throws InterruptedException {
         for (DisplayObject object1 : displayObjects) {
             if (object1.isMoving && object1.isVisible) {
                 for (DisplayObject object2 : displayObjects) {
@@ -37,11 +39,17 @@ public class DisplayAll {
                         if (object1.type == Type.BALL) {
                             ((Ball) object1).changeDirection(object2);
                         }
+                        if (object1.type == Type.PLATFORM && object2.type == Type.BONUS) {
+                            object2.isVisible = false;
+                            object2.isMoving = false;
+                            Player.statistics.score += 50;
+                        }
                         break;
                     }
                 }
             }
         }
     }
+
 
 }

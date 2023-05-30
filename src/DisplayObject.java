@@ -1,7 +1,9 @@
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.awt.*;
+import java.io.IOException;
 
 public abstract class DisplayObject {
-
     public int x1, y1, x2, y2;
     public Color color;
     public boolean isVisible;
@@ -19,4 +21,8 @@ public abstract class DisplayObject {
         }
         return false;
     }
+
+
 }
+
+

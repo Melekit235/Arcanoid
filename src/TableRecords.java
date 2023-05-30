@@ -2,22 +2,27 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-public class TableRecord extends JPanel {
+public class TableRecords extends JPanel {
     public static JLabel statistics;
     public static JButton menuButton;
 
-    public TableRecord(){
+    public TableRecords(){
         statistics = new JLabel(Player.getPlayerStatistic());
         menuButton = new JButton("Menu");
-        add(statistics, BorderLayout.WEST);
+        add(statistics,BorderLayout.WEST);
         add(menuButton, BorderLayout.EAST);
         menuButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                transferFocusDownCycle();
                 if (!Game.isPaused) {
                     Game.pause();
+                    Game.game.requestFocus();
+                } else {
+                    Game.game.requestFocus();
+                    Game.resume();
                 }
             }
         });

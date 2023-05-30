@@ -1,7 +1,9 @@
+import javax.swing.*;
 import java.awt.*;
 
-public class Platform extends DisplayObject{
-    private int speed;
+
+public class Platform extends DisplayObject {
+    public int speed;
     public boolean moveLeft;
     public boolean moveRight;
     public Platform(int x1, int y1, int x2, int y2, Color color, int speed, boolean isMoving)
@@ -32,11 +34,11 @@ public class Platform extends DisplayObject{
                 x2 = (x2 - x1);
                 x1 = 0;
             }
-            else if (x2 > 800) {
-                x1 = 800 - (x2 - x1);
-                x2 = 800;
+            else if (x2 > Game.WIDTH) {
+                x1 = Game.WIDTH - (x2 - x1);
+                x2 = Game.WIDTH;
             }
-        }
+       }
     }
 
     @Override
@@ -46,5 +48,8 @@ public class Platform extends DisplayObject{
         g.setColor(Color.BLACK);
         g.drawRect(x1, y1, x2 - x1, y2 - y1);
     }
+
+
+
 
 }

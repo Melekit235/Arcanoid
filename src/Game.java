@@ -1,34 +1,37 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class Game extends JPanel {
+    public static Player player;
+
+    public static Game game;
     public static GameField gameField;
-    private final int DELAY = 3;
+    public static long delay = 7;
     public static boolean isPaused;
-    public static final int WIDTH = 840;
-    public static final int HEIGHT = 650;
-    private Timer timer;
+    public static int WIDTH = 1920;
+    public static int HEIGHT = 1080;
+    public static Timer timer;
+    public static JFrame frame;
+    public static TableRecords tableRecords;
 
     public Game() {
+
+        player = new Player();
         gameField = new GameField();
-        setPreferredSize(new Dimension(WIDTH, HEIGHT));
-        setBackground(new Color(11, 22, 26));
-        setLayout(new BorderLayout());
+        isPaused = false;
 
-        addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {}
 
+        addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                     if (!isPaused) {
                         pause();
-                    } else {
+                    } else if (player.getLives() > 0){
                         resume();
                     }
                 } else if (!isPaused) {
@@ -53,34 +56,33 @@ public class Game extends JPanel {
         });
     }
 
-    public void start() {
-        JFrame frame = new JFrame("Арканоид");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setResizable(false);
-        frame.add(this);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-        setFocusable(true);
-        requestFocus();
-        startTimer();
-    }
+    public void startTimer() {
 
-    private void startTimer() {
         timer = new Timer();
-        timer.scheduleAtFixedRate(new LoopTask(), 1000, DELAY);
+        timer.scheduleAtFixedRate(new GameTask(), 2000, delay);
     }
 
-    private class LoopTask extends TimerTask {
+
+    private class GameTask extends TimerTask {
         @Override
         public void run() {
             if (!isPaused) {
-                gameField.allObjects.checkCollisions();
                 gameField.allObjects.moveObjects();
+                try {
+                    gameField.allObjects.checkCollisions();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
                 repaint();
+            }
+            if (Player.isGameFailed) {
+                timer.cancel();
+                startTimer();
+                Player.isGameFailed = false;
             }
         }
     }
+
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -90,15 +92,64 @@ public class Game extends JPanel {
 
     public static void pause() {
         isPaused = true;
+        timer.cancel();
+        gameField.menu.menuPanel.setVisible(true);
+
     }
 
     public static void resume() {
         isPaused = false;
+        game.startTimer();
+        gameField.menu.menuPanel.setVisible(false);
     }
 
+    public static void save() {
+        // Код сохранения игры
+    }
+
+    public static void loadJSON() {
+
+    }
+
+    public static void loadTXT() {
+
+    }
+
+    public static void newGame() {
+        player = new Player();
+        gameField.platforms = new Platforms();
+        gameField.balls = new Balls();
+        gameField.bricks = new Bricks();
+        gameField.bonuses = new Bonuses();
+        gameField.allObjects = new DisplayAll(gameField.balls, gameField.platforms, gameField.bricks, gameField.bonuses);
+        TableRecords.update();
+    }
+
+    public void start() {
+        frame = new JFrame("Арканоид");
+        frame.setUndecorated(true);
+        setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        setBackground(new Color(11, 22, 26));
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setResizable(false);
+        frame.add(this);
+        tableRecords = new TableRecords();
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        setLayout(new BorderLayout());
+        add(tableRecords, BorderLayout.NORTH);
+        add(gameField.menu.menuPanel, BorderLayout.CENTER);
+        gameField.menu.menuPanel.setVisible(false);
+        frame.setVisible(true);
+        setFocusable(true);
+        requestFocusInWindow();
+    }
 
     public static void main(String[] args) {
-        Game game = new Game();
+        game = new Game();
         game.start();
+        game.startTimer();
+
     }
+
 }

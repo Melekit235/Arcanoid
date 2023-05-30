@@ -4,6 +4,8 @@ public class Brick extends DisplayObject{
     public int strength;
     public Bonuses bonuses;
 
+    int indexx;
+
     public Brick (int x1, int y1,  int x2, int y2, int strength, Color color, boolean isMoving) {
         this.type = Type.BRICK;
         this.x1 = x1;
@@ -14,6 +16,8 @@ public class Brick extends DisplayObject{
         this.strength = strength;
         this.isMoving = isMoving;
         this.isVisible = true;
+        bonuses = new Bonuses();
+        //?System.out.println(index);
     }
     @Override
     public void move() {
@@ -49,6 +53,9 @@ public class Brick extends DisplayObject{
                 break;
             case 0:
                 this.isVisible = false;
+                bonuses.bonuses.get(Ball.destroyedBrick).isMoving = true;
+                bonuses.bonuses.get(Ball.destroyedBrick).isVisible = true;
+                System.out.println(Ball.destroyedBrick + " " + indexx);
                 break;
         }
     }
