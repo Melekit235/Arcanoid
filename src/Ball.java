@@ -10,7 +10,7 @@ public class Ball extends DisplayObject {
     private float dy;
     private boolean fromWall;
     private static boolean flag;
-    public static int destroyedBrick;
+
 
 
     public Ball (int x, int y, int radius, int speed, float direction, Color color, boolean isMoving) {
@@ -25,6 +25,8 @@ public class Ball extends DisplayObject {
         this.x2 = x + 2 * radius;
         this.y1 = y;
         this.y2 = y + 2 * radius;
+        this.eventManager = new EventManager();
+        eventManager.registerEventHandler(CollisionEvent.class, new CollisionEventHandler());
     }
 
     @Override
@@ -93,14 +95,6 @@ public class Ball extends DisplayObject {
                 direction = (float) Math.PI - direction;
             }
 
-            if (object.type == Type.BRICK) {
-                destroyedBrick = Bricks.bricks.indexOf(object);
-                ((Brick) object).decreaseStrength();
-
-                //System.out.println(destroyedBrick);
-                Player.statistics.score += 10;
-                TableRecords.update();
-            }
         }
     }
 
@@ -110,6 +104,13 @@ public class Ball extends DisplayObject {
         g.fillOval(x1, y1, 2 * radius, 2 * radius);
         g.setColor(Color.BLACK);
         g.drawOval(x1, y1, 2 * radius, 2 * radius);
+    }
+
+    private class CollisionEventHandler implements EventHandler<CollisionEvent> {
+        @Override
+        public void handle(CollisionEvent event) {
+            changeDirection(event.obj2);
+        }
     }
 
 }

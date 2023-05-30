@@ -2,7 +2,7 @@ import java.awt.*;
 
 public class Bonus extends DisplayObject{
     public int speed;
-    public int num;
+    public int points;
 
     private static final Font font = new Font("Arial", Font.BOLD, 30);
 
@@ -12,11 +12,13 @@ public class Bonus extends DisplayObject{
         this.speed = speed;
         this.isMoving = isMoving;
         this.isVisible = false;
-        this.num = ((int)(Math.random() * 10) + 1) * 10;
+        this.points = ((int)(Math.random() * 10) + 1) * 10;
         this.x1 = x1;
         this.x2 = x2;
         this.y1 = y1;
         this.y2 = y2;
+        this.eventManager = new EventManager();
+        eventManager.registerEventHandler(CollisionEvent.class, new CollisionEventHandler());
     }
 
     @Override
@@ -29,6 +31,16 @@ public class Bonus extends DisplayObject{
     public void draw(Graphics g) {
         g.setColor(Color.WHITE);
         g.setFont(font);
-        g.drawString("+" + num, x1 + (x2 - x1) / 2, y1 + (y2 - y1) / 2);
+        g.drawString("+" + points, x1 + (x2 - x1) / 2, y1 + (y2 - y1) / 2);
     }
+
+    private class CollisionEventHandler implements EventHandler<CollisionEvent> {
+        @Override
+        public void handle(CollisionEvent event) {
+            isVisible = false;
+            isMoving = false;
+        }
+    }
+
+
 }

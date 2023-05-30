@@ -16,8 +16,9 @@ public class Brick extends DisplayObject{
         this.strength = strength;
         this.isMoving = isMoving;
         this.isVisible = true;
+        this.eventManager = new EventManager();
         bonuses = new Bonuses();
-        //?System.out.println(index);
+        eventManager.registerEventHandler(CollisionEvent.class, new CollisionEventHandler());
     }
     @Override
     public void move() {
@@ -53,10 +54,16 @@ public class Brick extends DisplayObject{
                 break;
             case 0:
                 this.isVisible = false;
-                bonuses.bonuses.get(Ball.destroyedBrick).isMoving = true;
-                bonuses.bonuses.get(Ball.destroyedBrick).isVisible = true;
-                System.out.println(Ball.destroyedBrick + " " + indexx);
+                BrickDestructionEvent event = new BrickDestructionEvent(this);
+                eventManager.triggerEvent(event);
                 break;
+        }
+    }
+
+    private class CollisionEventHandler implements EventHandler<CollisionEvent> {
+        @Override
+        public void handle(CollisionEvent event) {
+            decreaseStrength();
         }
     }
 }
