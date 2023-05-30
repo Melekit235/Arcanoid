@@ -37,19 +37,27 @@ public class DisplayAll {
                     }
                     if (object1.checkCollisions(object2)) {
                         if (object1.type == Type.BALL) {
-                            ((Ball) object1).changeDirection(object2);
+                            CollisionEvent event = new CollisionEvent(object1, object2);
+                            object1.eventManager.triggerEvent(event);
+                            object2.eventManager.triggerEvent(event);
                         }
                         if (object1.type == Type.PLATFORM && object2.type == Type.BONUS) {
-                            object2.isVisible = false;
-                            object2.isMoving = false;
+                            BonusCatchEvent eventBonus = new BonusCatchEvent((Bonus) object2);
+                            object2.eventManager.triggerEvent(eventBonus);
+                            CollisionEvent eventCollision = new CollisionEvent(object1, object2);
+                            object1.eventManager.triggerEvent(eventCollision);
+                            object2.eventManager.triggerEvent(eventCollision);
                             Player.statistics.score += 50;
                         }
+
+
                         break;
                     }
                 }
             }
         }
     }
+
 
 
 }

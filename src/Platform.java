@@ -17,6 +17,8 @@ public class Platform extends DisplayObject {
         this.speed = speed;
         this.isMoving = isMoving;
         this.isVisible = true;
+        this.eventManager = new EventManager();
+        eventManager.registerEventHandler(CollisionEvent.class, new CollisionEventHandler());
     }
     @Override
     public void move() {
@@ -49,7 +51,12 @@ public class Platform extends DisplayObject {
         g.drawRect(x1, y1, x2 - x1, y2 - y1);
     }
 
+    private class CollisionEventHandler implements EventHandler<CollisionEvent> {
+        @Override
+        public void handle(CollisionEvent event) {
 
+        }
+    }
 
 
 }

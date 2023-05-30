@@ -8,6 +8,8 @@ public abstract class DisplayObject {
     public Color color;
     public boolean isVisible;
     public boolean isMoving;
+
+    public EventManager eventManager;
     Type type;
 
     public abstract void move();
