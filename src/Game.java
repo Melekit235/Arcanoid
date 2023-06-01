@@ -104,15 +104,24 @@ public class Game extends JPanel {
     }
 
     public static void save() {
-        // Код сохранения игры
+        Proxy proxy = new Proxy();
+        proxy.serializeToTextFile("Proxy/save.txt", gameField.allObjects.displayObjects, gameField.settings, player);
+        proxy.serializeToJSONFile("Proxy/save.json", gameField.allObjects.displayObjects, gameField.settings, player);
     }
 
     public static void loadJSON() {
-
+        Proxy proxy = new Proxy();
+        proxy.deserializeFromJSONFile("Proxy/save.json", gameField.allObjects, gameField.settings, player);
+        frame.revalidate();
+        game.revalidate();
+        frame.repaint();
     }
 
     public static void loadTXT() {
-
+        Proxy proxy = new Proxy();
+        proxy.deserializeFromTextFile("Proxy/save.txt", gameField.allObjects, gameField.settings, player);
+        frame.revalidate();
+        frame.repaint();
     }
 
     public static void newGame() {
@@ -122,6 +131,8 @@ public class Game extends JPanel {
         gameField.bricks = new Bricks();
         gameField.bonuses = new Bonuses();
         gameField.allObjects = new DisplayAll(gameField.balls, gameField.platforms, gameField.bricks, gameField.bonuses);
+        frame.revalidate();
+        frame.repaint();
         TableRecords.update();
     }
 
@@ -151,5 +162,4 @@ public class Game extends JPanel {
         game.startTimer();
 
     }
-
 }

@@ -1,6 +1,4 @@
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.Timer;
+
 
 public class Player {
     public static Statistic statistics;
@@ -17,19 +15,21 @@ public class Player {
         statistics.lives--;
         TableRecords.update();
         if (statistics.lives <= 0) {
-            Game.pause();
+            MessageBox.showMessageBox("Вы проиграли!");
+            Game.timer.cancel();
         }
         else {
             Balls balls = new Balls();
             Platforms platforms = new Platforms();
             Game.gameField.allObjects.displayObjects.set(0, balls.balls.get(0));
             Game.gameField.allObjects.displayObjects.set(1, platforms.platforms.get(0));
+            Bonuses.resetVisibility();
             Game.gameField.platforms = platforms;
             Game.gameField.balls = balls;
             isGameFailed = true;
         }
     }
     public static String getPlayerStatistic(){
-        return "        Name: " + statistics.name + "         Score: " + Integer.toString(statistics.score) + "         Lives: " + Integer.toString(statistics.lives);
+        return "         Уровень:  " + statistics.level + "        Имя игрока:  " + statistics.name + "         Счёт:  " + statistics.score + "         Жизни:  " + statistics.lives + "         Сложность:  " + statistics.complexity + "        ";
     }
 }

@@ -84,8 +84,8 @@ public class Menu extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 Game.gameField.menu.menuPanel.setVisible(false);
                 Game.game.remove(Game.gameField.menu.menuPanel);
-                Game.game.add(Game.gameField.settings.settingsPanel, BorderLayout.CENTER);
-                Game.gameField.settings.settingsPanel.requestFocus();
+                Game.game.add(SettingsComponents.settingsPanel, BorderLayout.CENTER);
+                SettingsComponents.settingsPanel.requestFocus();
                 Game.game.revalidate();
                 Game.game.repaint();
                 Game.frame.revalidate();

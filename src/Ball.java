@@ -1,22 +1,31 @@
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.awt.*;
-import java.io.PrintStream;
-import java.util.Timer;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 
 public class Ball extends DisplayObject {
     public int radius;
     public int speed;
     private float direction;
-    private float dx;
-    private float dy;
+    public float dx;
+    public float dy;
     private boolean fromWall;
+    public static int destroyedBrick;
     private static boolean flag;
 
 
 
-    public Ball (int x, int y, int radius, int speed, float direction, Color color, boolean isMoving) {
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public Ball (int x, int y, int radius, int speed, float direction, int R, int G, int B, boolean isMoving) {
+        this.classType = 1;
         this.type = Type.BALL;
         this.radius = radius;
-        this.color = color;
+        this.R = R;
+        this.G = G;
+        this.B = B;
         this.speed = speed;
         this.direction = direction;
         this.isMoving = isMoving;
@@ -27,6 +36,9 @@ public class Ball extends DisplayObject {
         this.y2 = y + 2 * radius;
         this.eventManager = new EventManager();
         eventManager.registerEventHandler(CollisionEvent.class, new CollisionEventHandler());
+    }
+    public Ball() {
+
     }
 
     @Override
@@ -100,10 +112,35 @@ public class Ball extends DisplayObject {
 
     @Override
     public void draw(Graphics g) {
-        g.setColor(color);
+        g.setColor(new Color(R, G, B));
         g.fillOval(x1, y1, 2 * radius, 2 * radius);
         g.setColor(Color.BLACK);
         g.drawOval(x1, y1, 2 * radius, 2 * radius);
+    }
+
+    @Override
+    public void saveComponentData(String filename) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(filename, true))) {
+            writer.println(getClass().getName());
+            writer.println(x1 + "," + y1 + "," + x2 + "," + y2 + "," + R + "," + G + "," + B + "," + speed + "," + radius + "," + direction);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void readComponentData(String dataComponent) {
+        String[] dataArray = dataComponent.split(",");
+        this.x1 = Integer.parseInt(dataArray[0]);
+        this.y1 = Integer.parseInt(dataArray[1]);
+        this.x2 = Integer.parseInt(dataArray[2]);
+        this.y2 = Integer.parseInt(dataArray[3]);
+        this.R = Integer.parseInt(dataArray[4]);
+        this.G = Integer.parseInt(dataArray[5]);
+        this.B = Integer.parseInt(dataArray[6]);
+        this.speed = Integer.parseInt(dataArray[7]);
+        this.radius = Integer.parseInt(dataArray[8]);
+        this.direction = Float.parseFloat(dataArray[9]);
     }
 
     private class CollisionEventHandler implements EventHandler<CollisionEvent> {
