@@ -25,7 +25,7 @@ public class Platform extends DisplayObject {
         this.speed = speed;
         this.isMoving = isMoving;
         this.isVisible = true;
-        this.eventManager = new EventManager();
+        eventManager = new EventManager();
         eventManager.registerEventHandler(CollisionEvent.class, new CollisionEventHandler());
     }
     @Override

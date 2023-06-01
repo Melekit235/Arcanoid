@@ -34,7 +34,7 @@ public class Ball extends DisplayObject {
         this.x2 = x + 2 * radius;
         this.y1 = y;
         this.y2 = y + 2 * radius;
-        this.eventManager = new EventManager();
+        eventManager = new EventManager();
         eventManager.registerEventHandler(CollisionEvent.class, new CollisionEventHandler());
     }
     public Ball() {

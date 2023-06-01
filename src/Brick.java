@@ -25,7 +25,7 @@ public class Brick extends DisplayObject{
         this.strength = strength;
         this.isMoving = isMoving;
         this.isVisible = true;
-        this.eventManager = new EventManager();
+        eventManager = new EventManager();
         bonuses = new Bonuses();
         eventManager.registerEventHandler(CollisionEvent.class, new CollisionEventHandler());
     }

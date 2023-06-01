@@ -1,6 +1,9 @@
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -29,7 +32,7 @@ public class Bonus extends DisplayObject{
         this.x2 = x2;
         this.y1 = y1;
         this.y2 = y2;
-        this.eventManager = new EventManager();
+        eventManager = new EventManager();
         eventManager.registerEventHandler(CollisionEvent.class, new CollisionEventHandler());
     }
 
