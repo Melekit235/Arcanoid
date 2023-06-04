@@ -7,7 +7,6 @@ import java.util.TimerTask;
 
 public class Game extends JPanel {
     public static Player player;
-
     public static Game game;
     public static GameField gameField;
     public static long delay = 7;
@@ -19,11 +18,9 @@ public class Game extends JPanel {
     public static TableRecords tableRecords;
 
     public Game() {
-
-        player = new Player();
         gameField = new GameField();
+        player = new Player();
         isPaused = false;
-
 
         addKeyListener(new KeyAdapter() {
             @Override
@@ -57,7 +54,6 @@ public class Game extends JPanel {
     }
 
     public void startTimer() {
-
         timer = new Timer();
         timer.scheduleAtFixedRate(new GameTask(), 2000, delay);
     }
@@ -93,20 +89,19 @@ public class Game extends JPanel {
     public static void pause() {
         isPaused = true;
         timer.cancel();
-        gameField.menu.menuPanel.setVisible(true);
-
+        Menu.menuPanel.setVisible(true);
     }
 
     public static void resume() {
         isPaused = false;
         game.startTimer();
-        gameField.menu.menuPanel.setVisible(false);
+        Menu.menuPanel.setVisible(false);
     }
 
     public static void save() {
         Proxy proxy = new Proxy();
-        proxy.serializeToTextFile("Proxy/save.txt", gameField.allObjects.displayObjects, gameField.settings, player);
-        proxy.serializeToJSONFile("Proxy/save.json", gameField.allObjects.displayObjects, gameField.settings, player);
+        proxy.serializeToTextFile("Proxy/save.txt", DisplayAll.displayObjects, gameField.settings, player);
+        proxy.serializeToJSONFile("Proxy/save.json", DisplayAll.displayObjects, gameField.settings, player);
     }
 
     public static void loadJSON() {
@@ -131,6 +126,7 @@ public class Game extends JPanel {
         gameField.bricks = new Bricks();
         gameField.bonuses = new Bonuses();
         gameField.allObjects = new DisplayAll(gameField.balls, gameField.platforms, gameField.bricks, gameField.bonuses);
+        gameField.setEvents();
         frame.revalidate();
         frame.repaint();
         TableRecords.update();
@@ -149,8 +145,8 @@ public class Game extends JPanel {
         frame.setLocationRelativeTo(null);
         setLayout(new BorderLayout());
         add(tableRecords, BorderLayout.NORTH);
-        add(gameField.menu.menuPanel, BorderLayout.CENTER);
-        gameField.menu.menuPanel.setVisible(false);
+        add(Menu.menuPanel, BorderLayout.CENTER);
+        Menu.menuPanel.setVisible(false);
         frame.setVisible(true);
         setFocusable(true);
         requestFocusInWindow();
@@ -160,6 +156,5 @@ public class Game extends JPanel {
         game = new Game();
         game.start();
         game.startTimer();
-
     }
 }

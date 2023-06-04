@@ -1,5 +1,3 @@
-
-
 public class Player {
     public static Statistic statistics;
     public static boolean isGameFailed = false;
@@ -14,6 +12,9 @@ public class Player {
     public void fail() {
         statistics.lives--;
         TableRecords.update();
+        if(GameField.timer != null)
+            GameField.timer.stop();
+
         if (statistics.lives <= 0) {
             MessageBox.showMessageBox("Вы проиграли!");
             Game.timer.cancel();
@@ -21,8 +22,8 @@ public class Player {
         else {
             Balls balls = new Balls();
             Platforms platforms = new Platforms();
-            Game.gameField.allObjects.displayObjects.set(0, balls.balls.get(0));
-            Game.gameField.allObjects.displayObjects.set(1, platforms.platforms.get(0));
+            DisplayAll.displayObjects.set(0, balls.balls.get(0));
+            DisplayAll.displayObjects.set(1, platforms.platforms.get(0));
             Bonuses.resetVisibility();
             Game.gameField.platforms = platforms;
             Game.gameField.balls = balls;

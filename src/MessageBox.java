@@ -11,7 +11,7 @@ public class MessageBox {
 
         JDialog dialog = new JDialog(parentFrame, "MessageBox", true);
         dialog.setPreferredSize(new Dimension(400, 300));
-        dialog.setUndecorated(true); // Убираем верхнюю панель с крестиком потому что это очеь важно!!!
+        dialog.setUndecorated(true);
 
         Font font = new Font("Arial", Font.BOLD, 40);
         JPanel messagePanel = new JPanel(new GridBagLayout());
@@ -33,7 +33,7 @@ public class MessageBox {
         dialog.getContentPane().add(messagePanel, BorderLayout.CENTER);
         dialog.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
         dialog.pack();
-        dialog.setLocationRelativeTo(null); // Отображаем диалоговое окно по центру экрана
+        dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
     }
 }

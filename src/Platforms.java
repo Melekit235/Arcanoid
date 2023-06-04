@@ -1,4 +1,3 @@
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +8,6 @@ public class Platforms {
         int Width = Game.WIDTH;
         int Height = Game.HEIGHT;
         platforms.add(new Platform((int) (Width / 11 + Width * 0.5 - Width / 22), (int) (Height * 0.95), (int) (Width / 11 + Width * 0.56 + Width / 22), (int) (Height * 0.983), 106, 114,114, (int)((Game.HEIGHT) * Settings.speedRatio) + 2, true));
-        //platforms.add(new Platform(0, (int) (Height * 0.95), Width, (int) (Height * 0.983), 106, 114,114, (int)((Game.HEIGHT) * Settings.speedRatio) + 2, true));
     }
 
     public static void repaintPlatform(){

@@ -1,9 +1,6 @@
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,7 +11,6 @@ public class Bonus extends DisplayObject{
     public int speed;
     public int points;
     public int bonusType;
-    //private static final Font font = new Font("Arial", Font.BOLD, 30);
 
     public Bonus (int x1, int y1, int x2, int y2, int speed, boolean isMoving){
         this.classType = 4;
@@ -23,7 +19,7 @@ public class Bonus extends DisplayObject{
         this.isMoving = isMoving;
         this.isVisible = false;
         this.points = ((int)(Math.random() * 10) + 1) * 10;
-        generateRandomNumber();
+        this.bonusType = generateRandomNumber();
         this.x1 = x1;
         this.x2 = x2;
         this.y1 = y1;
@@ -36,28 +32,25 @@ public class Bonus extends DisplayObject{
         eventManager = new EventManager();
         eventManager.registerEventHandler(CollisionEvent.class, new CollisionEventHandler());
     }
-    public void generateRandomNumber() {
+    public int generateRandomNumber() {
         Random random = new Random();
         int randomNumber = random.nextInt(10);
 
         if (randomNumber <= 5) {
-            this.bonusType = 1;
+            return 5;
         } else {
             switch (randomNumber){
                 case 6:
-                    this.bonusType = 2;
-                    break;
+                    return 2;
                 case 7:
-                    this.bonusType = 3;
-                    break;
+                    return  3;
                 case 8:
-                    this.bonusType = 4;
-                    break;
+                    return 4;
                 case 9:
-                    this.bonusType = 5;
-                    break;
+                    return 5;
             }
         }
+        return randomNumber;
     }
 
     @Override
@@ -119,9 +112,7 @@ public class Bonus extends DisplayObject{
                 text = "S";
                 color = Color.GREEN;
                 break;
-
         }
-
 
         g.setColor(Color.WHITE);
         FontMetrics fontMetrics = g.getFontMetrics();

@@ -11,7 +11,7 @@ public class GameField {
     public Bonuses bonuses;
     public Menu menu;
     public Settings settings;
-    private Timer timer;
+    public static Timer timer;
     public GameField() {
         settings = new Settings();
         platforms = new Platforms();
@@ -25,15 +25,24 @@ public class GameField {
 
         allObjects = new DisplayAll(balls, platforms, bricks, bonuses);
     }
+
+
+    public void setEvents() {
+        setBrickDestructionEvent(new BrickDestructionEventHandler());
+        setBonusCatchEvent(new BonusCatchEventHandler());
+    }
+
     public void setBrickDestructionEvent (EventHandler<BrickDestructionEvent> handler) {
         for (Brick brick : bricks.bricks){
             brick.eventManager.registerEventHandler(BrickDestructionEvent.class, handler);
         }
     }
+
+
+
     private class BrickDestructionEventHandler implements EventHandler<BrickDestructionEvent> {
         @Override
         public void handle(BrickDestructionEvent event) {
-
             int num = Bricks.bricks.indexOf(event.brick);
             bonuses.bonuses.get(num).isMoving = true;
             bonuses.bonuses.get(num).isVisible = true;
@@ -79,13 +88,13 @@ public class GameField {
                     }
                     break;
                 case 4:
-                    Platforms.platforms.get(0).x2 -= halfWidth;
-                    Platforms.platforms.get(0).x1 += halfWidth;
+                    Platforms.platforms.get(0).x2 -= halfWidth/2;
+                    Platforms.platforms.get(0).x1 += halfWidth/2;
                     timer = new Timer(5000, new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            Platforms.platforms.get(0).x2 += halfWidth;
-                            Platforms.platforms.get(0).x1 -= halfWidth;
+                            Platforms.platforms.get(0).x2 += halfWidth/2;
+                            Platforms.platforms.get(0).x1 -= halfWidth/2;
                             timer.stop();
                         }
                     });
@@ -98,11 +107,11 @@ public class GameField {
                     }
                     break;
                 case 5:
-                    Settings.speedRatio += 0.001;
+                    Balls.balls.get(0).speed += 1;
                     timer = new Timer(5000, new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            Settings.speedRatio -= 0.001;
+                            Balls.balls.get(0).speed -= 1;
                             timer.stop();
                         }
                     });

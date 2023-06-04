@@ -1,10 +1,10 @@
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Proxy {
@@ -26,11 +26,25 @@ public class Proxy {
 
     public void deserializeFromTextFile(String filename, DisplayAll allObjects, Settings settings, Player player) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+
+            Balls.balls = new ArrayList<>();
+            Platforms.platforms = new ArrayList<>();
+            Bricks.bricks = new ArrayList<>();
+            Bonuses.bonuses = new ArrayList<>();
+
+
             int length = allObjects.displayObjects.size();
             for (int i = 0; i < length; i++) {
                 reader.readLine();
                 allObjects.displayObjects.get(i).readComponentData(reader.readLine());
+                switch (allObjects.displayObjects.get(i).type){
+                    case BALL -> Balls.balls.add((Ball) allObjects.displayObjects.get(i));
+                    case PLATFORM -> Platforms.platforms.add((Platform) allObjects.displayObjects.get(i));
+                    case BRICK -> Bricks.bricks.add((Brick) allObjects.displayObjects.get(i));
+                    case BONUS -> Bonuses.bonuses.add((Bonus) allObjects.displayObjects.get(i));
+                }
             }
+            Game.gameField.setEvents();
             reader.readLine();
             settings.readComponentData(reader.readLine());
             settings.update();
@@ -44,10 +58,10 @@ public class Proxy {
         }
     }
 
+
     public void serializeToJSONFile(String filename, List<DisplayObject> displayObjects, Settings settings, Player player) {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode root = mapper.createObjectNode();
-        //mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
 
         ObjectNode settingsNode = mapper.valueToTree(settings);
         root.set("settings", settingsNode);
@@ -78,6 +92,23 @@ public class Proxy {
             settings.update();
             player.statistics.readComponentDataFromJSON(rootNode);
             TableRecords.update();
+
+            Balls.balls = new ArrayList<>();
+            Platforms.platforms = new ArrayList<>();
+            Bricks.bricks = new ArrayList<>();
+            Bonuses.bonuses = new ArrayList<>();
+
+
+            int length = allObjects.displayObjects.size();
+            for (int i = 0; i < length; i++) {
+                switch (allObjects.displayObjects.get(i).type){
+                    case BALL -> Balls.balls.add((Ball) allObjects.displayObjects.get(i));
+                    case PLATFORM -> Platforms.platforms.add((Platform) allObjects.displayObjects.get(i));
+                    case BRICK -> Bricks.bricks.add((Brick) allObjects.displayObjects.get(i));
+                    case BONUS -> Bonuses.bonuses.add((Bonus) allObjects.displayObjects.get(i));
+                }
+            }
+            Game.gameField.setEvents();
 
         } catch (IOException e) {
             e.printStackTrace();

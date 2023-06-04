@@ -5,7 +5,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-
 public class Ball extends DisplayObject {
     public int radius;
     public int speed;
@@ -33,6 +32,7 @@ public class Ball extends DisplayObject {
         eventManager = new EventManager();
         eventManager.registerEventHandler(CollisionEvent.class, new CollisionEventHandler());
     }
+
     public Ball() {
         eventManager = new EventManager();
         eventManager.registerEventHandler(CollisionEvent.class, new CollisionEventHandler());
@@ -96,7 +96,6 @@ public class Ball extends DisplayObject {
                 x1 = x2 - 2 * radius;
                 direction = (float) Math.PI - direction;
             }
-
         }
     }
 
@@ -139,5 +138,4 @@ public class Ball extends DisplayObject {
             changeDirection(event.obj2);
         }
     }
-
 }

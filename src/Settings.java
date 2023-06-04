@@ -1,4 +1,3 @@
-
 import com.fasterxml.jackson.databind.JsonNode;
 
 import javax.swing.*;
@@ -44,7 +43,6 @@ public class Settings implements Serializable {
         JsonNode settingsNode = rootNode.get("settings");
         currentIndexComplexityLabels = settingsNode.get("currentIndexComplexityLabels").asInt();
         currentIndexScreenResolutionLabels = settingsNode.get("currentIndexScreenResolutionLabels").asInt();
-
     }
 
     public Settings() {
@@ -270,7 +268,4 @@ public class Settings implements Serializable {
             gbc.gridy++;
         }
     }
-
-
-
 }

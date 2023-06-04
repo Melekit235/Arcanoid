@@ -39,7 +39,6 @@ public class Menu extends JFrame{
         newGameButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //Audio.playSoundThread(Audio.CLICK_SOUND);
                 Game.newGame();
                 Game.resume();
                 dispose();

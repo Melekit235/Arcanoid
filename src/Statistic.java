@@ -16,7 +16,7 @@ public class Statistic {
         lives = 3;
         name = "Игрок 1";
         level = 1;
-        //complexity = SettingsComponents.settingsItems.get(0).getText();
+        complexity = SettingsComponents.settingsItems.get(0).getText();
     }
 
     public void saveComponentData(String filename) {
@@ -45,6 +45,4 @@ public class Statistic {
         level = (statisticsNode.get("level").asInt());
         complexity = (statisticsNode.get("complexity").asText());
     }
-
-
 }

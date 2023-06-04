@@ -1,4 +1,3 @@
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,17 +27,6 @@ public class Bricks {
             bricks.get(i).G = 114;
             bricks.get(i).B = 114;
         }
-    }
-
-    public static boolean isWin() {
-        boolean result = true;
-        for (Brick brick : bricks) {
-            if (brick.isVisible) {
-                result = false;
-                break;
-            }
-        }
-        return result;
     }
 
     public static void repaintBricks(){

@@ -1,4 +1,3 @@
-import java.awt.*;
 import java.util.ArrayList;
 
 public class Balls {
@@ -26,6 +25,5 @@ public class Balls {
       balls.get(0).speed = (int) (Game.HEIGHT * Settings.speedRatio);
       Settings.previousHeight = Game.HEIGHT;
       Settings.previousWidth = Game.WIDTH;
-
    }
 }

@@ -2,17 +2,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import javax.swing.Timer;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DisplayAll {
     public static List<DisplayObject> displayObjects;
-    public static boolean isExpanding;
-    private Timer timer;
+
     public DisplayAll(Balls balls, Platforms platforms, Bricks bricks, Bonuses bonuses) {
         displayObjects = new ArrayList<>();
         displayObjects.addAll(balls.balls);
@@ -57,8 +53,6 @@ public class DisplayAll {
                             object1.eventManager.triggerEvent(eventCollision);
                             object2.eventManager.triggerEvent(eventCollision);
                         }
-
-
                         break;
                     }
                 }
@@ -70,7 +64,6 @@ public class DisplayAll {
         ObjectMapper mapper = new ObjectMapper();
         displayObjects = new ArrayList<>();
         JsonNode objectsNode = rootNode.get("displayObjects");
-        // int i = 0;
         Balls.balls = new ArrayList<>();
         Platforms.platforms = new ArrayList<>();
         Bricks.bricks = new ArrayList<>();

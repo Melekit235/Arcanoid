@@ -1,6 +1,5 @@
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.swing.*;
 import java.awt.*;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -39,7 +38,7 @@ public class Platform extends DisplayObject {
                 x1 = (x1 - speed);
                 x2 = (x2 - speed);
             }
-            else if (moveRight) {
+            else {
                 x1 = (x1 + speed);
                 x2 = (x2 + speed);
             }
@@ -89,7 +88,6 @@ public class Platform extends DisplayObject {
     private class CollisionEventHandler implements EventHandler<CollisionEvent> {
         @Override
         public void handle(CollisionEvent event) {
-
         }
     }
 
