@@ -1,3 +1,4 @@
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.awt.*;
@@ -7,9 +8,6 @@ import java.io.PrintWriter;
 
 public class Brick extends DisplayObject{
     public int strength;
-    public Bonuses bonuses;
-
-
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public Brick (int x1, int y1,  int x2, int y2, int strength, int R, int G, int B, boolean isMoving)  {
@@ -26,7 +24,11 @@ public class Brick extends DisplayObject{
         this.isMoving = isMoving;
         this.isVisible = true;
         eventManager = new EventManager();
-        bonuses = new Bonuses();
+        eventManager.registerEventHandler(CollisionEvent.class, new CollisionEventHandler());
+    }
+
+    public Brick(){
+        eventManager = new EventManager();
         eventManager.registerEventHandler(CollisionEvent.class, new CollisionEventHandler());
     }
     @Override
@@ -67,28 +69,34 @@ public class Brick extends DisplayObject{
 
     public void decreaseStrength()
     {
-        strength -= 1;
+        if(strength != 9)
+            strength -= 1;
         switch (strength)
         {
+            case 5 :
+                this.R = 255;
+                this.G = 165;
+                this.B = 0;
+                break;
             case 4 :
-                this.R = 68;
-                this.G = 7;
-                this.B = 77;
+                this.R = 255;
+                this.G = 255;
+                this.B = 0;
                 break;
             case 3 :
-                this.R = 96;
-                this.G = 41;
-                this.B = 96;
+                this.R = 0;
+                this.G = 255;
+                this.B = 0;
                 break;
             case 2 :
-                this.R = 146;
-                this.G = 91;
-                this.B = 148;
+                this.R = 0;
+                this.G = 0;
+                this.B = 255;
                 break;
             case 1 :
-                this.R = 194;
-                this.G = 142;
-                this.B = 200;
+                this.R = 128;
+                this.G = 0;
+                this.B = 128;
                 break;
             case 0 :
                 this.isVisible = false;

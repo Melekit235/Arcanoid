@@ -51,52 +51,64 @@ public class GameField {
         @Override
         public void handle(BonusCatchEvent event) {
 
-            int num = (event.bonus).num;
-            if ((event.bonus).bonusType == 1) {
-                int x1 = Platforms.platforms.get(0).x1;
-                int x2 = Platforms.platforms.get(0).x2;
-                int halfWidth = (x2 - x1) / 2;
-                Platforms.platforms.get(0).x2 += halfWidth;
-                Platforms.platforms.get(0).x1 -= halfWidth;
-                timer = new Timer(5000, new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        Platforms.platforms.get(0).x2 -= halfWidth;
-                        Platforms.platforms.get(0).x1 += halfWidth;
-                        timer.stop();
-                    }
-                });
-                timer.setRepeats(false);
-                timer.start();
-                if (Platforms.platforms.get(0).x2 > Game.WIDTH) {
-                    Platforms.platforms.get(0).x2 = Game.WIDTH;
-                    Platforms.platforms.get(0).x1 = Platforms.platforms.get(0).x2 - 4 * halfWidth;
+            int x1 = Platforms.platforms.get(0).x1;
+            int x2 = Platforms.platforms.get(0).x2;
+            int halfWidth = (x2 - x1) / 2;
+            switch (event.bonus.bonusType){
+                case 2:
+                    Player.statistics.lives += 1;
+                    break;
+                case 3:
 
-                }
-            } else if ((event.bonus).bonusType == 2) {
-                int width = Platforms.platforms.get(0).x2 - Platforms.platforms.get(0).x1;
-                Platforms.platforms.get(0).x1 = 0;
-                Platforms.platforms.get(0).x2 = Game.WIDTH;
-                float speedRatio = Settings.speedRatio;
-                Balls.balls.get(0).speed = (int) (Game.HEIGHT * 0.03f);
-                timer = new Timer(5000, new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        if (Balls.balls.get(0).dx < 0) {
-                            Platforms.platforms.get(0).x1 = Balls.balls.get(0).x1 - 10 * (Balls.balls.get(0).x2 - Balls.balls.get(0).x1);
-                            Platforms.platforms.get(0).x2 = Platforms.platforms.get(0).x1 + width;
-                        } else if (Balls.balls.get(0).dx > 0) {
-                            Platforms.platforms.get(0).x1 = Balls.balls.get(0).x1 + 10 * (Balls.balls.get(0).x2 - Balls.balls.get(0).x1);
-                            Platforms.platforms.get(0).x2 = Platforms.platforms.get(0).x1 + width;
+                    Platforms.platforms.get(0).x2 += halfWidth;
+                    Platforms.platforms.get(0).x1 -= halfWidth;
+                    timer = new Timer(5000, new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            Platforms.platforms.get(0).x2 -= halfWidth;
+                            Platforms.platforms.get(0).x1 += halfWidth;
+                            timer.stop();
                         }
-                        Balls.balls.get(0).speed = (int) (Game.HEIGHT * speedRatio);
-                        timer.stop();
+                    });
+                    timer.setRepeats(false);
+                    timer.start();
+                    if (Platforms.platforms.get(0).x2 > Game.WIDTH) {
+                        Platforms.platforms.get(0).x2 = Game.WIDTH;
+                        Platforms.platforms.get(0).x1 = Platforms.platforms.get(0).x2 - 4 * halfWidth;
+
                     }
-                });
-                timer.setRepeats(false);
-                timer.start();
+                    break;
+                case 4:
+                    Platforms.platforms.get(0).x2 -= halfWidth;
+                    Platforms.platforms.get(0).x1 += halfWidth;
+                    timer = new Timer(5000, new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            Platforms.platforms.get(0).x2 += halfWidth;
+                            Platforms.platforms.get(0).x1 -= halfWidth;
+                            timer.stop();
+                        }
+                    });
+                    timer.setRepeats(false);
+                    timer.start();
+                    if (Platforms.platforms.get(0).x2 > Game.WIDTH) {
+                        Platforms.platforms.get(0).x2 = Game.WIDTH;
+                        Platforms.platforms.get(0).x1 = Platforms.platforms.get(0).x2 - 4 * halfWidth;
+
+                    }
+                    break;
+                case 5:
+                    Settings.speedRatio += 0.001;
+                    timer = new Timer(5000, new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            Settings.speedRatio -= 0.001;
+                            timer.stop();
+                        }
+                    });
+                    break;
             }
-            Player.statistics.score += num;
+            Player.statistics.score += event.bonus.points;
             TableRecords.update();
         }
     }

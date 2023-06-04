@@ -1,3 +1,5 @@
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.awt.*;
@@ -10,7 +12,7 @@ public abstract class DisplayObject {
     public int B;
     public boolean isVisible;
     public boolean isMoving;
-
+    @JsonIgnore
     public EventManager eventManager;
     public int classType;
     Type type;

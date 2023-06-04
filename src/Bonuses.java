@@ -10,11 +10,12 @@ public class Bonuses {
         int Height = Game.HEIGHT;
         bonuses = new ArrayList<>();
         for (int i = 1; i < 10; i++) {
+            bonuses.add(new Bonus(i * (Width / 11), (int) (Height * 0.12), (i + 1) * (Width / 11), (int) (Height * 0.15), (int)((Game.HEIGHT) * 0.0046f),false));
             bonuses.add(new Bonus(i * (Width / 11), (int) (Height * 0.15), (i + 1) * (Width / 11), (int) (Height * 0.18), (int)((Game.HEIGHT) * 0.0045f),false));
-            bonuses.add(new Bonus(i * (Width / 11), (int) (Height * 0.18), (i + 1) * (Width / 11), (int) (Height * 0.21), (int)((Game.HEIGHT) * 0.0045f),false));
-            bonuses.add(new Bonus(i * (Width / 11), (int) (Height * 0.21), (i + 1) * (Width / 11), (int) (Height * 0.24), (int)((Game.HEIGHT) * 0.0045f),false));
-            bonuses.add(new Bonus(i * (Width / 11), (int) (Height * 0.24), (i + 1) * (Width / 11), (int) (Height * 0.27), (int)((Game.HEIGHT) * 0.0045f),false));
-            bonuses.add(new Bonus(i * (Width / 11), (int) (Height * 0.27), (i + 1) * (Width / 11), (int) (Height * 0.3), (int)((Game.HEIGHT) * 0.0045f),false));
+            bonuses.add(new Bonus(i * (Width / 11), (int) (Height * 0.18), (i + 1) * (Width / 11), (int) (Height * 0.21), (int)((Game.HEIGHT) * 0.0047f),false));
+            bonuses.add(new Bonus(i * (Width / 11), (int) (Height * 0.21), (i + 1) * (Width / 11), (int) (Height * 0.24), (int)((Game.HEIGHT) * 0.0044f),false));
+            bonuses.add(new Bonus(i * (Width / 11), (int) (Height * 0.24), (i + 1) * (Width / 11), (int) (Height * 0.27), (int)((Game.HEIGHT) * 0.0033f),false));
+            bonuses.add(new Bonus(i * (Width / 11), (int) (Height * 0.27), (i + 1) * (Width / 11), (int) (Height * 0.3), (int)((Game.HEIGHT) * 0.0050f),false));
         }
     }
 
@@ -28,7 +29,7 @@ public class Bonuses {
         int Height = Game.HEIGHT;
         int index = 0;
         for (int i = 1; i < 10; i++) {
-            for (int j = 0; j < 5; j++) {
+            for (int j = 0; j < 6; j++) {
                 bonuses.get(index).x1 = i * (Width / 11);
                 bonuses.get(index).y1 = (int) (Height * (0.15 + (j * 0.03)));
                 bonuses.get(index).x2 = (i + 1) * (Width / 11);

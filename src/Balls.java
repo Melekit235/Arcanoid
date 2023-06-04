@@ -7,7 +7,7 @@ public class Balls {
       balls = new ArrayList<>();
       int Width = Game.WIDTH;
       int Height = Game.HEIGHT;
-      balls.add(new Ball((int) (Width * 0.5), (int) (Height * 0.5), (int) (Height * 0.012), (int)((Game.HEIGHT) * Settings.speedRatio), (float) (Math.PI / 2 * 0.5), 255,0,0, true));
+      balls.add(new Ball((int) (Width * 0.5), (int) (Height * 0.5), (int) (Height * 0.012), (int)((Game.HEIGHT) * Settings.speedRatio), (float) (Math.PI / 2 * 0.5), 255,255,255, true));
    }
 
    public static void repaintBall(){

@@ -28,6 +28,10 @@ public class Platform extends DisplayObject {
         eventManager = new EventManager();
         eventManager.registerEventHandler(CollisionEvent.class, new CollisionEventHandler());
     }
+    public Platform(){
+        eventManager = new EventManager();
+        eventManager.registerEventHandler(CollisionEvent.class, new CollisionEventHandler());
+    }
     @Override
     public void move() {
         if (moveLeft || moveRight) {

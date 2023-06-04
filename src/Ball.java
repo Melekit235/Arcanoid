@@ -9,13 +9,9 @@ import java.io.PrintWriter;
 public class Ball extends DisplayObject {
     public int radius;
     public int speed;
-    private float direction;
-    public float dx;
-    public float dy;
-    private boolean fromWall;
-    public static int destroyedBrick;
-    private static boolean flag;
-
+    public float direction;
+    private float dx;
+    private float dy;
 
 
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -38,7 +34,8 @@ public class Ball extends DisplayObject {
         eventManager.registerEventHandler(CollisionEvent.class, new CollisionEventHandler());
     }
     public Ball() {
-
+        eventManager = new EventManager();
+        eventManager.registerEventHandler(CollisionEvent.class, new CollisionEventHandler());
     }
 
     @Override
@@ -63,27 +60,20 @@ public class Ball extends DisplayObject {
         y1 = y1 + (int)dy;
         y2 = y2 + (int)dy;
 
-        fromWall = false;
         if (x1 >= Game.WIDTH - 2 * radius) {
             x1 = Game.WIDTH - 2 * radius;
             x2 = Game.WIDTH;
-            fromWall = true;
         }
         if (x1 <= 0) {
             x1 = 0;
             x2 = 2 * radius;
-            fromWall = true;
         }
         if (y1 <= 35) {
             y1 = 35;
             y2 = 35 + 2 * radius;
-            fromWall = true;
         }
         if (y1 >= Game.HEIGHT) {
             Game.player.fail();
-        }
-        if (fromWall) {
-            flag = fromWall;
         }
     }
 
@@ -122,7 +112,7 @@ public class Ball extends DisplayObject {
     public void saveComponentData(String filename) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(filename, true))) {
             writer.println(getClass().getName());
-            writer.println(x1 + "," + y1 + "," + x2 + "," + y2 + "," + R + "," + G + "," + B + "," + speed + "," + radius + "," + direction);
+            writer.println(x1 + "," + y1 + "," + x2 + "," + y2 + "," + R + "," + G + "," + B + "," + speed + "," + radius + "," + direction );
         } catch (IOException e) {
             e.printStackTrace();
         }

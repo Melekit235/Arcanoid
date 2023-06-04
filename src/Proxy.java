@@ -1,5 +1,6 @@
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -46,6 +47,7 @@ public class Proxy {
     public void serializeToJSONFile(String filename, List<DisplayObject> displayObjects, Settings settings, Player player) {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode root = mapper.createObjectNode();
+        //mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
 
         ObjectNode settingsNode = mapper.valueToTree(settings);
         root.set("settings", settingsNode);
