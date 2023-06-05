@@ -13,8 +13,8 @@ public class Statistic {
 
     public Statistic() {
         score = 0;
-        lives = 3;
-        name = "Игрок 1";
+        lives = 1;
+        name = "Илья";
         level = 1;
         complexity = SettingsComponents.settingsItems.get(0).getText();
     }

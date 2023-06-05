@@ -11,11 +11,14 @@ public class Game extends JPanel {
     public static GameField gameField;
     public static long delay = 7;
     public static boolean isPaused;
+
     public static int WIDTH = 1920;
     public static int HEIGHT = 1080;
     public static Timer timer;
     public static JFrame frame;
     public static TableRecords tableRecords;
+
+    public EventManager eventManager;
 
     public Game() {
         gameField = new GameField();
@@ -62,22 +65,43 @@ public class Game extends JPanel {
     private class GameTask extends TimerTask {
         @Override
         public void run() {
+            GameEvent gameEvent = new GameEvent(game);
+            eventManager.triggerEvent(gameEvent);
+        }
+    }
+
+
+
+
+    public void setEvent (EventHandler<GameEvent> handler) {
+            eventManager.registerEventHandler(GameEvent.class, handler);
+    }
+
+
+
+    private class GameEventHandler implements EventHandler<GameEvent> {
+        @Override
+        public void handle(GameEvent event) {
             if (!isPaused) {
                 gameField.allObjects.moveObjects();
                 try {
-                    gameField.allObjects.checkCollisions();
+                    Game.gameField.allObjects.checkCollisions();
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
                 repaint();
             }
             if (Player.isGameFailed) {
-                timer.cancel();
+                Game.timer.cancel();
                 startTimer();
                 Player.isGameFailed = false;
             }
         }
     }
+
+
+
+
 
 
     @Override
@@ -150,6 +174,11 @@ public class Game extends JPanel {
         frame.setVisible(true);
         setFocusable(true);
         requestFocusInWindow();
+
+
+
+        eventManager = new EventManager();
+        eventManager.registerEventHandler(GameEvent.class, new GameEventHandler());
     }
 
     public static void main(String[] args) {

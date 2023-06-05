@@ -37,7 +37,7 @@ public class Bonus extends DisplayObject{
         int randomNumber = random.nextInt(10);
 
         if (randomNumber <= 5) {
-            return 5;
+            return 1;
         } else {
             switch (randomNumber){
                 case 6:
