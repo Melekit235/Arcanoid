@@ -16,6 +16,11 @@ public class Player {
             GameField.timer.stop();
 
         if (statistics.lives <= 0) {
+
+            //AnotherMessageBox anotherMessageBox = new AnotherMessageBox();
+
+            //DisplayAll.displayObjects.add(anotherMessageBox);
+
             MessageBox.showMessageBox("Вы проиграли!");
             Game.timer.cancel();
         }

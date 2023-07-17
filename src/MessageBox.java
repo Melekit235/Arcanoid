@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class MessageBox {
     public static void showMessageBox(String message) {
@@ -21,15 +23,17 @@ public class MessageBox {
         messagePanel.add(messageLabel);
         JPanel buttonPanel = new JPanel(new FlowLayout());
         JButton okButton = new JButton("OK");
-        okButton.addActionListener(new ActionListener() {
+        JLabel Ok = new JLabel("OK");
+        Ok.setFont(font);
+        Ok.addMouseListener(new MouseAdapter() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void mouseClicked(MouseEvent e) {
                 Game.pause();
                 parentFrame.setVisible(false);
                 parentFrame.requestFocus();
             }
         });
-        buttonPanel.add(okButton);
+        buttonPanel.add(Ok);
         dialog.getContentPane().add(messagePanel, BorderLayout.CENTER);
         dialog.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
         dialog.pack();
